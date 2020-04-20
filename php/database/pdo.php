@@ -169,9 +169,10 @@ class _pdo extends PDO
 	 * @param string  $table  name of the table in the database
 	 * @return string
 	 */
-    public function select($table)
+    public function select($table ,$columns = ["*"])
     {
-        $this->query = 'SELECT * FROM '.security($table).' ';
+        $columns = implode(",", $columns);
+        $this->query = 'SELECT '.$columns.' FROM '.security($table).' ';
 
         return $this;
     }
@@ -691,11 +692,11 @@ class _pdo_statement extends PDOStatement
  * @example select('slides')->where('slide_id = 2')->limit(1)->result();	
  * 
  */
-function select($table)
+function select($table, $columns=["*"])
 {
     global $pdo;
 
-    return $pdo->select($table);
+    return $pdo->select($table ,$columns);
 }
 /** 
  * @example find('slides',3);	
